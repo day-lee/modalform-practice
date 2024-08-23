@@ -16,25 +16,56 @@ function App() {
   const storedEmail = storedValues.email;
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const validateInput = (targetName, textInput) => {
+    switch (targetName) {
+      case "name":
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        return nameRegex.test(textInput);
+
+      case "email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(textInput);
+    }
+  };
 
   const onChange = (e) => {
     const { value, name } = e.target;
+
     setTempValues((prev) => ({ ...prev, [name]: value }));
-    console.log(value);
+    console.log(name, value);
+    if (!validateInput(name, value)) {
+      setIsError(true);
+      setErrorMsg("Invalid input. Please check your text.");
+    } else {
+      setIsError(false);
+      setErrorMsg("");
+      console.log("success" + value);
+    }
   };
 
-  const onSubmit = (targetName) => {
-    setStoredValues(tempValues);
-    //console.log(targetName);
-    switch (targetName) {
-      case "name":
-        setIsNameModalOpen(false);
-        break;
-      case "email":
-        setIsEmailModalOpen(false);
-        break;
+  const onSubmit = (targetName, value) => {
+    console.log(targetName, value);
+    if (isError) {
+      return;
+    } else if (!validateInput(targetName, value)) {
+      setIsError(true);
+      setErrorMsg("This field cannot be left empty.");
+      return;
+    } else {
+      switch (targetName) {
+        case "name":
+          setIsNameModalOpen(false);
+          break;
+        case "email":
+          setIsEmailModalOpen(false);
+          break;
+      }
+      setStoredValues(tempValues);
+      console.log("Submitted");
     }
-    console.log("Submitted");
   };
 
   const onOpenModal = (targetName) => {
@@ -78,6 +109,8 @@ function App() {
           tempValues={name}
           isModalOpen={isNameModalOpen}
           inputType={inputName}
+          isError={isError}
+          errorMsg={errorMsg}
           onSubmit={onSubmit}
           onChange={onChange}
           onCancel={onCancel}
@@ -86,6 +119,8 @@ function App() {
           tempValues={email}
           isModalOpen={isEmailModalOpen}
           inputType={inputEmail}
+          isError={isError}
+          errorMsg={errorMsg}
           onSubmit={onSubmit}
           onChange={onChange}
           onCancel={onCancel}

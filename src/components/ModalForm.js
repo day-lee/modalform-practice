@@ -1,16 +1,16 @@
-import { useState } from "react";
-
 function ModalForm({
   tempValues,
   isModalOpen,
   inputType,
+  isError,
+  errorMsg,
   onChange,
   onSubmit,
   onCancel,
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(inputType);
+    onSubmit(inputType, tempValues);
   };
   const handleChange = (e) => {
     onChange(e);
@@ -53,6 +53,7 @@ function ModalForm({
               >
                 Cancel
               </button>
+              {isError && <div>{errorMsg}</div>}
             </form>
           </div>
           <div className="fixed w-full h-full z-20 bg-opacity-50 bg-black">
