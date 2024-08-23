@@ -31,23 +31,34 @@ function App() {
     }
   };
 
+  const onOpenModal = (targetName) => {
+    switch (targetName) {
+      case "name":
+        setIsNameModalOpen(true);
+        break;
+      case "email":
+        setIsEmailModalOpen(true);
+        break;
+    }
+  };
+
   const onChange = (e) => {
     const { value, name } = e.target;
-
-    setTempValues((prev) => ({ ...prev, [name]: value }));
-    console.log(name, value);
+    setTempValues({ ...storedValues, [name]: value });
+    //setTempValues((prev) => ({ ...prev, [name]: value }));
+    //console.log(name, value);
     if (!validateInput(name, value)) {
       setIsError(true);
       setErrorMsg("Invalid input. Please check your text.");
     } else {
       setIsError(false);
       setErrorMsg("");
-      console.log("success" + value);
+      //console.log("success" + value);
     }
   };
 
   const onSubmit = (targetName, value) => {
-    console.log(targetName, value);
+    //console.log(targetName, value);
     if (isError) {
       return;
     } else if (!validateInput(targetName, value)) {
@@ -64,23 +75,15 @@ function App() {
           break;
       }
       setStoredValues(tempValues);
+      setTempValues(INITIAL_VALUES);
       console.log("Submitted");
     }
   };
 
-  const onOpenModal = (targetName) => {
-    switch (targetName) {
-      case "name":
-        setIsNameModalOpen(true);
-        break;
-      case "email":
-        setIsEmailModalOpen(true);
-        break;
-    }
-  };
-
   const onCancel = (targetName) => {
-    console.log(targetName);
+    //console.log(targetName);
+    setIsError(false);
+    setErrorMsg("");
     switch (targetName) {
       case "name":
         setIsNameModalOpen(false);
@@ -89,6 +92,7 @@ function App() {
         setIsEmailModalOpen(false);
         break;
     }
+    setTempValues(INITIAL_VALUES);
   };
 
   return (
