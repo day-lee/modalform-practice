@@ -1,3 +1,5 @@
+import { useRef, useEffect } from "react";
+
 function ModalForm({
   tempValues,
   isModalOpen,
@@ -8,6 +10,12 @@ function ModalForm({
   onSubmit,
   onCancel,
 }) {
+  const inputRef = useRef();
+
+  const inputFocusHandle = () => {
+    if (inputRef.current && isModalOpen) inputRef.current.focus();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(inputType, tempValues);
@@ -19,6 +27,10 @@ function ModalForm({
   const cancelHandle = (e) => {
     onCancel(e.target.name);
   };
+
+  useEffect(() => {
+    inputFocusHandle();
+  }, [isModalOpen]);
 
   return (
     <div>
@@ -38,6 +50,7 @@ function ModalForm({
                 id={inputType}
                 name={inputType}
                 onChange={handleChange}
+                ref={inputRef}
               />
               <button
                 className="text-sm ml-3 p-1 px-2 rounded-xl bg-blue-500 text-white font-semibold hover:bg-blue-600"

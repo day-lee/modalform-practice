@@ -5,8 +5,8 @@ function Card({ values, inputType, onOpenModal }) {
   };
   return (
     <>
-      <div className="flex p-3 ">
-        <div className="w-full">
+      <div className="flex items-center  p-3 ">
+        <div className="flex items-center w-full">
           <span className="inline-block w-1/4 font-extrabold">
             {inputType.charAt(0).toUpperCase() + inputType.slice(1)}
           </span>
