@@ -98,17 +98,19 @@ function App() {
   return (
     <>
       <Header />
-      <div className="">
-        <Card
-          values={storedName}
-          inputType={inputName}
-          onOpenModal={onOpenModal}
-        />
-        <Card
-          values={storedEmail}
-          inputType={inputEmail}
-          onOpenModal={onOpenModal}
-        />
+      <div className="flex justify-center">
+        <div className="border-2 w-[450px] p-5 mt-20 m-5 rounded-2xl">
+          <Card
+            values={storedName}
+            inputType={inputName}
+            onOpenModal={onOpenModal}
+          />
+          <Card
+            values={storedEmail}
+            inputType={inputEmail}
+            onOpenModal={onOpenModal}
+          />
+        </div>
         <ModalForm
           tempValues={name}
           isModalOpen={isNameModalOpen}
